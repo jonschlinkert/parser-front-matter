@@ -50,8 +50,10 @@ parser.parse = function matterParse(file, options, next) {
   }
 
   var res = matter(o.content, opts);
+  _.merge(o, res);
+
   try {
-    next(null, utils.extendFile(res, opts));
+    next(null, utils.extendFile(o, opts));
   } catch (err) {
     next(err);
     return;
@@ -80,7 +82,9 @@ parser.parseSync = function matterParseSync(file, options) {
 
   try {
     var res = matter(o.content, opts);
-    return utils.extendFile(res, opts);
+    _.merge(o, res);
+
+    return utils.extendFile(o, opts);
   } catch (err) {
     return err;
   }
