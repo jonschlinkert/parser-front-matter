@@ -6,7 +6,6 @@
 
 var _ = require('lodash');
 var matter = require('gray-matter');
-var utils = require('parser-utils');
 
 
 /**
@@ -40,20 +39,18 @@ parser.parse = function matterParse(file, options, next) {
     options = {};
   }
 
-  var opts = _.extend({}, options);
   var o = {};
 
   if (typeof file === 'string') {
     o.content = file;
   } else {
     o = file;
+    o.content = o.content || '';
   }
 
-  var res = matter(o.content, opts);
-  _.merge(o, res);
-
   try {
-    next(null, utils.extendFile(o, opts));
+    _.merge(o, matter(o.content, options));
+    next(null, o);
   } catch (err) {
     next(err);
     return;
@@ -71,20 +68,18 @@ parser.parse = function matterParse(file, options, next) {
  */
 
 parser.parseSync = function matterParseSync(file, options) {
-  var opts = _.extend({}, options);
   var o = {};
 
   if (typeof file === 'string') {
     o.content = file;
   } else {
     o = file;
+    o.content = o.content || '';
   }
 
   try {
-    var res = matter(o.content, opts);
-    _.merge(o, res);
-
-    return utils.extendFile(o, opts);
+    _.merge(o, matter(o.content, options));
+    return o;
   } catch (err) {
     return err;
   }
