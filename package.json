@@ -1,7 +1,7 @@
 {
   "name": "parser-front-matter",
   "description": "Front matter parser that uses gray-matter and bits of real panther, so you know it's good. Kind of like consolidate.js engine, accept it's not an engine, it's a parser. Works with Assemble, express.js, parser-cache, or any application with similar conventions.",
-  "version": "0.3.0",
+  "version": "0.3.2",
   "homepage": "https://github.com/jonschlinkert/parser-front-matter",
   "author": {
     "name": "Jon Schlinkert",
@@ -29,12 +29,10 @@
   },
   "devDependencies": {
     "mocha": "*",
-    "should": "^4.0.4",
-    "verb": ">= 0.2.6",
-    "verb-tag-jscomments": "^0.2.0"
+    "should": "^4.3.0"
   },
   "dependencies": {
-    "gray-matter": "^0.5.1",
+    "gray-matter": "^0.6.0",
     "lodash": "^2.4.1"
   },
   "keywords": [
