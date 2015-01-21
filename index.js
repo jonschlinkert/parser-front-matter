@@ -7,7 +7,6 @@
 var _ = require('lodash');
 var matter = require('gray-matter');
 
-
 /**
  * Front matter parser
  */

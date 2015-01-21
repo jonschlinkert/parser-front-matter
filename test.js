@@ -9,7 +9,7 @@
 
 var fs = require('fs');
 var path = require('path');
-var should = require('should');
+var assert = require('assert');
 var parser = require('./');
 
 describe('parsers', function() {
@@ -17,9 +17,10 @@ describe('parsers', function() {
   describe('.parseSync()', function() {
     it('should parse the content property on an object.', function() {
       var o = parser.parseSync({content: 'abc'});
-      o.should.have.property('data');
-      o.should.have.property('content');
-      o.content.should.equal('abc');
+      var keys = Object.keys(o);
+      assert.equal(keys.indexOf('data') !== -1, true)
+      assert.equal(keys.indexOf('content') !== -1, true)
+      assert.equal(o.content, 'abc');
     });
   });
 
@@ -31,9 +32,10 @@ describe('parsers', function() {
           return;
         }
 
-        file.should.have.property('data');
-        file.should.have.property('content');
-        file.content.should.equal('abc');
+        var keys = Object.keys(file);
+        assert.equal(keys.indexOf('data') !== -1, true)
+        assert.equal(keys.indexOf('content') !== -1, true)
+        assert.equal(file.content, 'abc');
         done();
       });
     });
