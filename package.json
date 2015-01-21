@@ -32,7 +32,7 @@
     "should": "^4.3.0"
   },
   "dependencies": {
-    "gray-matter": "^0.6.0",
+    "gray-matter": "^1.1.2",
     "lodash": "^2.4.1"
   },
   "keywords": [
