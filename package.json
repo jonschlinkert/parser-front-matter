@@ -1,7 +1,7 @@
 {
   "name": "parser-front-matter",
   "description": "Front matter parser that uses gray-matter and bits of real panther, so you know it's good.",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "homepage": "https://github.com/jonschlinkert/parser-front-matter",
   "author": {
     "name": "Jon Schlinkert",
@@ -26,18 +26,18 @@
   ],
   "license": {
     "type": "MIT",
-    "url": "https://github.com/jonschlinkert/parser-front-matter/blob/master/LICENSE-MIT"
+    "url": "https://github.com/jonschlinkert/parser-front-matter/blob/master/LICENSE"
   },
+  "files": [
+    "index.js"
+  ],
   "main": "index.js",
   "parsers": {
     "node": ">=0.10.0"
   },
   "scripts": {
-    "test": "mocha -R spec"
+    "test": "mocha"
   },
-  "files": [
-    "index.js"
-  ],
   "devDependencies": {
     "mocha": "*"
   },
