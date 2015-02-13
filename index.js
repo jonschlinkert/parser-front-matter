@@ -13,7 +13,6 @@ var matter = require('gray-matter');
 
 var parser = module.exports;
 
-
 /**
  * Parse the given `file` into a normalized `file` object and callback `next(err, file)`.
  * Options are passed to [gray-matter], and if `options` has a `locals` property, it
@@ -49,6 +48,7 @@ parser.parse = function matterParse(file, options, next) {
 
   try {
     _.merge(o, matter(o.content, options));
+    o.content = o.content.trim();
     next(null, o);
   } catch (err) {
     next(err);
@@ -78,6 +78,7 @@ parser.parseSync = function matterParseSync(file, options) {
 
   try {
     _.merge(o, matter(o.content, options));
+    o.content = o.content.trim();
     return o;
   } catch (err) {
     return err;

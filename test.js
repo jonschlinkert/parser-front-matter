@@ -22,6 +22,16 @@ describe('parsers', function() {
       assert.equal(keys.indexOf('content') !== -1, true)
       assert.equal(o.content, 'abc');
     });
+
+    it('should return a data object.', function() {
+      var o = parser.parseSync({content: '---\ntitle: abc\n---\n\n\n\n\nfoo'});
+      assert.deepEqual(o.data, {title: 'abc'});
+    });
+
+    it('should strip newlines following front matter, before content.', function() {
+      var o = parser.parseSync({content: '---\ntitle: abc\n---\n\n\n\n\nfoo'});
+      assert.equal(o.content, 'foo');
+    });
   });
 
   describe('.parse()', function() {
