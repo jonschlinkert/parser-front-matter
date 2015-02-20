@@ -48,14 +48,13 @@ parser.parse = function matterParse(file, options, next) {
 
   try {
     _.merge(o, matter(o.content, options));
-    o.content = o.content;
+    o.content = o.content.replace(/^\s+/, '');
     next(null, o);
   } catch (err) {
     next(err);
     return;
   }
 };
-
 
 /**
  * Parse the given `file` and return a normalized `file` object,
@@ -78,7 +77,7 @@ parser.parseSync = function matterParseSync(file, options) {
 
   try {
     _.merge(o, matter(o.content, options));
-    o.content = o.content.trim();
+    o.content = o.content.replace(/^\s+/, '');
     return o;
   } catch (err) {
     return err;
