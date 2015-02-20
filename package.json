@@ -1,7 +1,7 @@
 {
   "name": "parser-front-matter",
   "description": "Front matter parser that uses gray-matter and bits of real panther, so you know it's good.",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "homepage": "https://github.com/jonschlinkert/parser-front-matter",
   "author": {
     "name": "Jon Schlinkert",
@@ -41,8 +41,8 @@
     "test": "mocha"
   },
   "dependencies": {
-    "gray-matter": "^1.1.2",
-    "lodash": "^2.4.1"
+    "gray-matter": "^1.2.4",
+    "lodash": "^3.2.0"
   },
   "devDependencies": {
     "mocha": "*"
