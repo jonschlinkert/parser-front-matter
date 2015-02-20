@@ -7,13 +7,6 @@
     "name": "Jon Schlinkert",
     "url": "https://github.com/jonschlinkert"
   },
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/jonschlinkert/parser-front-matter.git"
-  },
-  "bugs": {
-    "url": "https://github.com/jonschlinkert/parser-front-matter/issues"
-  },
   "maintainers": [
     {
       "name": "Brian Woodward",
@@ -24,10 +17,19 @@
       "url": "https://github.com/jonschlinkert"
     }
   ],
-  "license": {
-    "type": "MIT",
-    "url": "https://github.com/jonschlinkert/parser-front-matter/blob/master/LICENSE"
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/jonschlinkert/parser-front-matter.git"
   },
+  "bugs": {
+    "url": "https://github.com/jonschlinkert/parser-front-matter/issues"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/jonschlinkert/parser-front-matter/blob/master/LICENSE"
+    }
+  ],
   "files": [
     "index.js"
   ],
@@ -38,12 +40,12 @@
   "scripts": {
     "test": "mocha"
   },
-  "devDependencies": {
-    "mocha": "*"
-  },
   "dependencies": {
     "gray-matter": "^1.1.2",
     "lodash": "^2.4.1"
+  },
+  "devDependencies": {
+    "mocha": "*"
   },
   "keywords": [
     "assemble",

@@ -48,7 +48,7 @@ parser.parse = function matterParse(file, options, next) {
 
   try {
     _.merge(o, matter(o.content, options));
-    o.content = o.content.trim();
+    o.content = o.content;
     next(null, o);
   } catch (err) {
     next(err);

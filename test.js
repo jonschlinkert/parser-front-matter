@@ -1,8 +1,8 @@
 /*!
- * parser-cache <https://github.com/jonschlinkert/parser-cache>
+ * parser-front-matter <https://github.com/jonschlinkert/parser-front-matter>
  *
  * Copyright (c) 2014-2015, Jon Schlinkert.
- * Licensed under the MIT license.
+ * Licensed under the MIT License.
  */
 
 'use strict';
