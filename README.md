@@ -32,7 +32,7 @@ Normalized `file` objects should have the following properties:
   - `content`: the content of a file, excluding front-matter
   - `orig`: the original content of a file, including front-matter
 
-### [.parseSync](index.js#L69)
+### [.parseSync](index.js#L68)
 
 * `file` **{String|Object}**: The object or string to parse.    
 * `options` **{Object}**: to pass to [gray-matter].    
