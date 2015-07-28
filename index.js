@@ -4,8 +4,9 @@
  * Module dependencies.
  */
 
-var _ = require('lodash');
-var matter = require('gray-matter');
+var lazy = require('lazy-cache')(require);
+var matter = lazy('gray-matter');
+var extend = lazy('extend-shallow');
 
 /**
  * Front matter parser
@@ -47,7 +48,7 @@ parser.parse = function matterParse(file, options, next) {
   }
 
   try {
-    _.merge(o, matter(o.content, options));
+    extend()(o, matter()(o.content, options));
     o.content = o.content.replace(/^\s+/, '');
     next(null, o);
   } catch (err) {
@@ -76,7 +77,7 @@ parser.parseSync = function matterParseSync(file, options) {
   }
 
   try {
-    _.merge(o, matter(o.content, options));
+    extend()(o, matter()(o.content, options));
     o.content = o.content.replace(/^\s+/, '');
     return o;
   } catch (err) {
