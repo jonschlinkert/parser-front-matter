@@ -1,33 +1,20 @@
 {
   "name": "parser-front-matter",
-  "description": "Front matter parser that uses gray-matter and bits of real panther, so you know it's good.",
-  "version": "1.2.1",
+  "description": "Front matter parsing middleware based on gray-matter.",
+  "version": "1.2.2",
   "homepage": "https://github.com/jonschlinkert/parser-front-matter",
-  "author": {
-    "name": "Jon Schlinkert",
-    "url": "https://github.com/jonschlinkert"
-  },
+  "author": "Jon Schlinkert (https://github.com/jonschlinkert)",
+  "repository": "jonschlinkert/parser-front-matter",
   "maintainers": [
     {
       "name": "Brian Woodward",
       "url": "https://github.com/doowb"
-    },
-    {
-      "name": "Jon Schlinkert",
-      "url": "https://github.com/jonschlinkert"
     }
   ],
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/jonschlinkert/parser-front-matter.git"
-  },
   "bugs": {
     "url": "https://github.com/jonschlinkert/parser-front-matter/issues"
   },
-  "license": {
-    "type": "MIT",
-    "url": "https://github.com/jonschlinkert/parser-front-matter/blob/master/LICENSE"
-  },
+  "license": "MIT",
   "files": [
     "index.js"
   ],
@@ -39,32 +26,36 @@
     "test": "mocha"
   },
   "dependencies": {
-    "gray-matter": "^2.0.0",
-    "lodash": "^3.6.0"
+    "extend-shallow": "^2.0.1",
+    "gray-matter": "^2.0.1",
+    "lazy-cache": "^0.1.0"
   },
   "devDependencies": {
-    "mocha": "*"
+    "mocha": "^2.2.5"
   },
   "keywords": [
-    "assemble",
-    "cache",
-    "compile",
     "consolidate",
-    "content",
     "data",
-    "engine",
-    "express",
     "front",
     "front-matter",
     "gray-matter",
     "matter",
-    "noop",
+    "meta",
+    "metadata",
     "parse",
     "parser",
     "parsers",
-    "pass-through",
-    "process",
-    "templates",
     "yaml"
-  ]
+  ],
+  "verb": {
+    "related": {
+      "list": [
+        "gray-matter",
+        "template",
+        "parser-cache",
+        "parsers",
+        "parser-csv"
+      ]
+    }
+  }
 }
