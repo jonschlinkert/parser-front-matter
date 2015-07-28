@@ -1,13 +1,15 @@
-# parser-front-matter [![NPM version](https://badge.fury.io/js/parser-front-matter.svg)](http://badge.fury.io/js/parser-front-matter)  [![Build Status](https://travis-ci.org/jonschlinkert/parser-front-matter.svg)](https://travis-ci.org/jonschlinkert/parser-front-matter) 
+# parser-front-matter [![NPM version](https://badge.fury.io/js/parser-front-matter.svg)](http://badge.fury.io/js/parser-front-matter)  [![Build Status](https://travis-ci.org/jonschlinkert/parser-front-matter.svg)](https://travis-ci.org/jonschlinkert/parser-front-matter)
 
-> Front matter parser that uses gray-matter and bits of real panther, so you know it's good.
+> Front matter parsing middleware based on gray-matter.
 
-This is kind of like a consolidate.js engine, accept it's not an engine, it's a parser. Works with Assemble, verb, express.js, parser-cache, or any application with similar conventions.
+This is kind of like a consolidate.js engine, but for parsing. Works with Assemble, verb, express.js, parser-cache, or any application with similar conventions.
 
-## Install with [npm](npmjs.org)
+## Install
 
-```bash
-npm i parser-front-matter --save
+Install with [npm](https://www.npmjs.com/)
+
+```sh
+$ npm i parser-front-matter --save
 ```
 
 ## Usage
@@ -17,51 +19,54 @@ var parser = require('parser-front-matter');
 ```
 
 ## Related
- * [gray-matter](https://github.com/jonschlinkert/gray-matter): Parse front-matter from a string or file. Fast, reliable and easy to use. Parses YAML front matter by default, but also has support for YAML, JSON, TOML or Coffee Front-Matter, with options to set custom delimiters.
- * [template](https://github.com/jonschlinkert/template): Render templates from any engine. Make custom template types, use layouts on pages, partials or any custom template type, custom delimiters, helpers, middleware, routes, loaders, and lots more. Powers Assemble v0.6.0, Verb v0.3.0 and your application.
- * [parser-cache](https://github.com/jonschlinkert/parser-cache): Cache and load parsers, similiar to consolidate.js engines.
- * [parsers](https://github.com/jonschlinkert/parsers): Like consolidate.js, but for parsers instead of engines.
- * [parser-csv](https://github.com/jonschlinkert/parser-csv): CSV parser, compatible with [parser-cache].
+
+* [gray-matter](https://github.com/jonschlinkert/gray-matter): Parse front-matter from a string or file. Fast, reliable and easy to use. Parses YAML… [more](https://github.com/jonschlinkert/gray-matter)
+* [parser-cache](https://github.com/jonschlinkert/parser-cache): Cache and load parsers, similiar to consolidate.js engines.
+* [parsers](https://github.com/jonschlinkert/parsers): Like consolidate.js, but for parsers instead of engines.
+* [parser-csv](https://github.com/jonschlinkert/parser-csv): CSV parser, compatible with [parser-cache].
+* [template](https://github.com/jonschlinkert/template): Render templates using any engine. Supports, layouts, pages, partials and custom template types. Use template… [more](https://github.com/jonschlinkert/template)
 
 ## API
-### [.parse](./index.js#L34)
 
-Parse the given `file` into a normalized `file` object and callback `next(err, file)`. Options are passed to [gray-matter], and if `options` has a `locals` property, it will be merged with the `data` property on the normalized `file` object.
+### [.parse](index.js#L35)
 
-* `file` **{String|Object}**: The object or string to parse.    
-* `options` **{Object|Function}**: or `next` callback function.    
-* `next` **{Function}**: callback function.    
+Parse the given `file` into a normalized `file` object and callback `next(err, file)`. Options are passed to [gray-matter](https://github.com/jonschlinkert/gray-matter), and if `options` has a `locals` property, it will be merged with the `data` property on the normalized `file` object.
 
 Normalized `file` objects should have the following properties:
 
-  - `path` The source file path, if provided
-  - `data`: metadata, from yaml front matter and/or locals
-  - `content`: the content of a file, excluding front-matter
-  - `orig`: the original content of a file, including front-matter
+* `path` The source file path, if provided
+* `data`: metadata, from yaml front matter and/or locals
+* `content`: the content of a file, excluding front-matter
+* `orig`: the original content of a file, including front-matter
 
-### [.parseSync](./index.js#L68)
+**Params**
 
-* `file` **{String|Object}**: The object or string to parse.    
-* `options` **{Object}**: to pass to [gray-matter].    
+* `file` **{String|Object}**: The object or string to parse.
+* `options` **{Object|Function}**: or `next` callback function.
+* `next` **{Function}**: callback function.
+
+### [.parseSync](index.js#L69)
 
 Parse the given `file` and return a normalized `file` object,
 with `data`, `content`, `path` and `orig` properties.
+
+**Params**
+
+* `file` **{String|Object}**: The object or string to parse.
+* `options` **{Object}**: to pass to [gray-matter](https://github.com/jonschlinkert/gray-matter).
 
 ## Author
 
 **Jon Schlinkert**
 
 + [github/jonschlinkert](https://github.com/jonschlinkert)
-+ [twitter/jonschlinkert](http://twitter.com/jonschlinkert) 
++ [twitter/jonschlinkert](http://twitter.com/jonschlinkert)
 
 ## License
-Copyright (c) 2014-2015 Jon Schlinkert  
-Released under the MIT license
+
+Copyright © 2014-2015 Jon Schlinkert
+Released under the MIT license.
 
 ***
 
-_This file was generated by [verb-cli](https://github.com/assemble/verb-cli) on April 05, 2015._
-
-
-[gray-matter]: https://github.com/jonschlinkert/gray-matter "front matter parser"
-[globby]: https://github.com/sindresorhus/globby
+_This file was generated by [verb-cli](https://github.com/assemble/verb-cli) on July 28, 2015._
