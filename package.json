@@ -1,7 +1,7 @@
 {
   "name": "parser-front-matter",
   "description": "Front matter parsing middleware based on gray-matter.",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "homepage": "https://github.com/jonschlinkert/parser-front-matter",
   "author": "Jon Schlinkert (https://github.com/jonschlinkert)",
   "repository": "jonschlinkert/parser-front-matter",
@@ -26,9 +26,9 @@
     "test": "mocha"
   },
   "dependencies": {
-    "extend-shallow": "^2.0.1",
     "gray-matter": "^2.0.1",
-    "lazy-cache": "^0.1.0"
+    "lazy-cache": "^0.1.0",
+    "mixin-deep": "^1.1.1"
   },
   "devDependencies": {
     "mocha": "^2.2.5"
