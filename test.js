@@ -1,10 +1,3 @@
-/*!
- * parser-front-matter <https://github.com/jonschlinkert/parser-front-matter>
- *
- * Copyright (c) 2014-2015, Jon Schlinkert.
- * Licensed under the MIT License.
- */
-
 'use strict';
 
 /* deps: mocha */
@@ -14,7 +7,6 @@ var assert = require('assert');
 var parser = require('./');
 
 describe('parsers', function() {
-
   describe('.parseSync()', function() {
     it('should parse the content property on an object.', function() {
       var o = parser.parseSync({content: 'abc'});
@@ -42,7 +34,6 @@ describe('parsers', function() {
           done(err);
           return;
         }
-
         var keys = Object.keys(file);
         assert.equal(keys.indexOf('data') !== -1, true)
         assert.equal(keys.indexOf('content') !== -1, true)

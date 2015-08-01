@@ -6,7 +6,7 @@
 
 var lazy = require('lazy-cache')(require);
 var matter = lazy('gray-matter');
-var extend = lazy('extend-shallow');
+var merge = lazy('mixin-deep');
 
 /**
  * Front matter parser
@@ -48,9 +48,9 @@ parser.parse = function matterParse(file, options, next) {
   }
 
   try {
-    extend()(o, matter()(o.content, options));
-    o.content = o.content.replace(/^\s+/, '');
-    next(null, o);
+    var res = merge()(o, matter()(o.content, options));
+    res.content = res.content.replace(/^\s+/, '');
+    next(null, res);
   } catch (err) {
     next(err);
     return;
@@ -77,9 +77,9 @@ parser.parseSync = function matterParseSync(file, options) {
   }
 
   try {
-    extend()(o, matter()(o.content, options));
-    o.content = o.content.replace(/^\s+/, '');
-    return o;
+    var res = merge()(o, matter()(o.content, options));
+    res.content = res.content.replace(/^\s+/, '');
+    return res;
   } catch (err) {
     return err;
   }
