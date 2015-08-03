@@ -4,9 +4,9 @@
  * Module dependencies.
  */
 
+var assign = require('assign-deep');
 var lazy = require('lazy-cache')(require);
 var matter = lazy('gray-matter');
-var merge = lazy('mixin-deep');
 
 /**
  * Front matter parser
@@ -48,7 +48,7 @@ parser.parse = function matterParse(file, options, next) {
   }
 
   try {
-    var res = merge()(o, matter()(o.content, options));
+    var res = assign(o, matter()(o.content, options));
     res.content = res.content.replace(/^\s+/, '');
     next(null, res);
   } catch (err) {
@@ -77,7 +77,7 @@ parser.parseSync = function matterParseSync(file, options) {
   }
 
   try {
-    var res = merge()(o, matter()(o.content, options));
+    var res = assign(o, matter()(o.content, options));
     res.content = res.content.replace(/^\s+/, '');
     return res;
   } catch (err) {
