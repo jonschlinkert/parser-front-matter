@@ -1,43 +1,123 @@
 'use strict';
 
-/* deps: mocha */
+require('mocha');
 var fs = require('fs');
 var path = require('path');
 var assert = require('assert');
 var parser = require('./');
 
-describe('parsers', function() {
-  describe('.parseSync()', function() {
-    it('should parse the content property on an object.', function() {
-      var o = parser.parseSync({content: 'abc'});
-      var keys = Object.keys(o);
-      assert.equal(keys.indexOf('data') !== -1, true)
-      assert.equal(keys.indexOf('content') !== -1, true)
-      assert.equal(o.content, 'abc');
+describe('parsers', function () {
+  describe('.parseSync()', function () {
+    it('should support passing a string', function () {
+      var file = parser.parseSync('abc');
+      assert(file.data);
+      assert(file.content);
+      assert(file.content === 'abc');
     });
 
-    it('should return a data object.', function() {
-      var o = parser.parseSync({content: '---\ntitle: abc\n---\n\n\n\n\nfoo'});
-      assert.deepEqual(o.data, {title: 'abc'});
+    it('should parse front matter from a string', function () {
+      var file = parser.parseSync('---\ntitle: foo\n---\nbar');
+      assert(file.data);
+      assert(file.data.title);
+      assert(file.data.title === 'foo');
+      assert(file.content === 'bar');
     });
 
-    it('should strip newlines following front matter, before content.', function() {
-      var o = parser.parseSync({content: '---\ntitle: abc\n---\n\n\n\n\nfoo'});
-      assert.equal(o.content, 'foo');
+    it('should support parsing the content property on an object.', function () {
+      var file = parser.parseSync({
+        content: 'abc'
+      });
+      assert(file.data);
+      assert(file.content);
+      assert(file.content === 'abc');
+    });
+
+    it('should support the contents property on an object', function () {
+      var file = parser.parseSync({
+        contents: 'abc'
+      });
+      assert(file.data);
+      assert(file.content);
+      assert(file.content === 'abc');
+    });
+
+    it('should support contents as a buffer', function () {
+      var file = parser.parseSync({
+        contents: new Buffer('abc')
+      });
+      assert(file.data);
+      assert(file.content);
+      assert(file.content === 'abc');
+    });
+
+    it('should add front matter data to a "data" object.', function () {
+      var file = parser.parseSync({
+        content: '---\ntitle: abc\n---\nfoo'
+      });
+      assert(file.data);
+      assert(file.data.title);
+      assert(file.data.title === 'abc');
+      assert(file.content);
+      assert(file.content === 'foo');
+    });
+
+    it('should strip newlines after front matter before content', function () {
+      var file = parser.parseSync({
+        content: '---\ntitle: abc\n---\n\n\n\n\nfoo'
+      });
+      assert(file.data);
+      assert(file.data.title);
+      assert(file.data.title === 'abc');
+      assert(file.content);
+      assert(file.content === 'foo');
     });
   });
 
-  describe('.parse()', function() {
-    it('should parse the content property on an object.', function(done) {
+  describe('.parse()', function () {
+    it('should throw when a callback is not passed', function (done) {
+      try {
+        parser.parse({});
+        done(new Error('expected an error'));
+      } catch(err) {
+        assert(err);
+        assert(err.message);
+        assert(err.message === 'expected a callback function');
+        done();
+      }
+    });
+
+    it('should support passing a string', function (done) {
+      parser.parse('---\ntitle: foo\n---\nbar', function (err, file) {
+        if (err) return done(err);
+
+        assert(file.data);
+        assert(file.data.title);
+        assert(file.data.title === 'foo');
+        assert(file.content === 'bar');
+        assert(Buffer.isBuffer(file.contents));
+        done();
+      });
+    });
+
+    it('should use the content property on the given file', function (done) {
       parser.parse({content: 'abc'}, function (err, file) {
-        if (err) {
-          done(err);
-          return;
-        }
-        var keys = Object.keys(file);
-        assert.equal(keys.indexOf('data') !== -1, true)
-        assert.equal(keys.indexOf('content') !== -1, true)
-        assert.equal(file.content, 'abc');
+        if (err) return done(err);
+
+        assert(file.data);
+        assert(file.content);
+        assert(file.content === 'abc');
+        assert(Buffer.isBuffer(file.contents));
+        done();
+      });
+    });
+
+    it('should support the contents property', function (done) {
+      parser.parse({contents: new Buffer('abc')}, function (err, file) {
+        if (err) return done(err);
+
+        assert(file.data);
+        assert(typeof file.content === 'string');
+        assert(Buffer.isBuffer(file.contents));;
         done();
       });
     });
