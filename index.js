@@ -1,12 +1,6 @@
 'use strict';
 
-/**
- * Module dependencies.
- */
-
-var assign = require('assign-deep');
-var lazy = require('lazy-cache')(require);
-var matter = lazy('gray-matter');
+var utils = require('./utils');
 
 /**
  * Front matter parser
@@ -15,72 +9,90 @@ var matter = lazy('gray-matter');
 var parser = module.exports;
 
 /**
- * Parse the given `file` into a normalized `file` object and callback `next(err, file)`.
- * Options are passed to [gray-matter], and if `options` has a `locals` property, it
- * will be merged with the `data` property on the normalized `file` object.
+ * Parse front matter from the given string or the `contents` in the
+ * given `file` and callback `next(err, file)`.
  *
- * Normalized `file` objects should have the following properties:
+ * If an object is passed, either `file.contents` or `file.content`
+ * may be used (for gulp and assemble compatibility).
  *
- *   - `path` The source file path, if provided
- *   - `data`: metadata, from yaml front matter and/or locals
- *   - `content`: the content of a file, excluding front-matter
- *   - `orig`: the original content of a file, including front-matter
+ * ```js
+ * // pass a string
+ * parser.parse('---\ntitle: foo\n---\nbar', function (err, file) {
+ *   //=> {content: 'bar', data: {title: 'foo'}}
+ * });
  *
+ * // or an object
+ * var file = {contents: new Buffer('---\ntitle: foo\nbar')};
+ * parser.parse(file, function(err, res) {
+ *   //=> {content: 'bar', data: {title: 'foo'}}
+ * });
+ * ```
  * @param {String|Object} `file` The object or string to parse.
- * @param {Object|Function} `options` or `next` callback function.
+ * @param {Object|Function} `options` or `next` callback function. Options are passed to [gray-matter][].
  * @param {Function} `next` callback function.
  * @api public
  */
 
 parser.parse = function matterParse(file, options, next) {
-  if (typeof options === 'function') {
-    next = options;
-    options = {};
-  }
+  var args = [].slice.call(arguments);
+  next = args.pop();
 
-  var o = {};
-
-  if (typeof file === 'string') {
-    o.content = file;
-  } else {
-    o = file;
-    o.content = o.content || '';
+  if (typeof next !== 'function') {
+    throw new TypeError('expected a callback function');
   }
 
   try {
-    var res = assign(o, matter()(o.content, options));
-    res.content = res.content.replace(/^\s+/, '');
-    next(null, res);
-  } catch (err) {
+    next(null, parser.parseSync.apply(parser, args));
+  } catch(err) {
     next(err);
-    return;
   }
 };
 
 /**
- * Parse the given `file` and return a normalized `file` object,
- * with `data`, `content`, `path` and `orig` properties.
+ * Parse front matter from the given string or the `contents` in the
+ * given `file`. If an object is passed, either `file.contents` or
+ * `file.content` may be used (for gulp and assemble compatibility).
  *
+ * ```js
+ * // pass a string
+ * var res = parser.parseSync('---\ntitle: foo\n---\nbar');
+ *
+ * // or an object
+ * var file = {contents: new Buffer('---\ntitle: foo\nbar')};
+ * var res = parser.parseSync(file);
+ * //=> {content: 'bar', data: {title: 'foo'}}
+ * ```
  * @param {String|Object} `file` The object or string to parse.
- * @param {Object} `options` to pass to [gray-matter].
+ * @param {Object} `options` passed to [gray-matter][].
  * @api public
  */
 
 parser.parseSync = function matterParseSync(file, options) {
-  var o = {};
+  options = options || {};
+  var str = '';
 
   if (typeof file === 'string') {
-    o.content = file;
+    str = file;
+    file = { content: str };
+
+  } else if (typeof file === 'object') {
+    str = file.content || (file.contents ? file.contents.toString() : '');
+
   } else {
-    o = file;
-    o.content = o.content || '';
+    throw new Error('expected file to be a string or object');
   }
 
+  file.options = file.options || {};
+  var opts = utils.extend({}, options, file.options);
+
   try {
-    var res = assign(o, matter()(o.content, options));
-    res.content = res.content.replace(/^\s+/, '');
-    return res;
+    var parsed = utils.matter(str, opts);
+    file.orig = parsed.orig;
+    file.data = utils.extend({}, file.data, parsed.data);
+    file.content = parsed.content.replace(/^\s+/, '');
+    file.contents = new Buffer(file.content);
+    return file;
   } catch (err) {
-    return err;
+    throw err;
   }
 };
