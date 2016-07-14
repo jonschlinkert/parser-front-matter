@@ -4,19 +4,18 @@
   "version": "1.3.0",
   "homepage": "https://github.com/jonschlinkert/parser-front-matter",
   "author": "Jon Schlinkert (https://github.com/jonschlinkert)",
-  "repository": "jonschlinkert/parser-front-matter",
   "maintainers": [
-    {
-      "name": "Brian Woodward",
-      "url": "https://github.com/doowb"
-    }
+    "Brian Woodward (https://github.com/doowb)"
   ],
+  "repository": "jonschlinkert/parser-front-matter",
   "bugs": {
     "url": "https://github.com/jonschlinkert/parser-front-matter/issues"
   },
   "license": "MIT",
   "files": [
     "index.js",
+    "LICENSE",
+    "README.md",
     "utils.js"
   ],
   "main": "index.js",
@@ -28,11 +27,14 @@
   },
   "dependencies": {
     "extend-shallow": "^2.0.1",
-    "gray-matter": "^2.0.1",
-    "lazy-cache": "^0.2.3"
+    "gray-matter": "^2.0.2",
+    "isobject": "^2.1.0",
+    "lazy-cache": "^2.0.1",
+    "trim-leading-lines": "^0.1.0"
   },
   "devDependencies": {
-    "mocha": "^2.2.5"
+    "gulp-format-md": "^0.1.9",
+    "mocha": "^2.5.3"
   },
   "keywords": [
     "consolidate",
@@ -55,6 +57,25 @@
         "parser-cache",
         "parser-csv"
       ]
-    }
+    },
+    "toc": false,
+    "layout": "default",
+    "tasks": [
+      "readme"
+    ],
+    "plugins": [
+      "gulp-format-md"
+    ],
+    "lint": {
+      "reflinks": true
+    },
+    "reflinks": [
+      "gray-matter",
+      "verb",
+      "verb-generate-readme",
+      "assemble",
+      "generate",
+      "update"
+    ]
   }
 }
