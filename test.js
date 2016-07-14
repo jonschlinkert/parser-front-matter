@@ -12,15 +12,15 @@ describe('parsers', function () {
       var file = parser.parseSync('abc');
       assert(file.data);
       assert(file.content);
-      assert(file.content === 'abc');
+      assert.equal(file.content, 'abc');
     });
 
     it('should parse front matter from a string', function () {
       var file = parser.parseSync('---\ntitle: foo\n---\nbar');
       assert(file.data);
       assert(file.data.title);
-      assert(file.data.title === 'foo');
-      assert(file.content === 'bar');
+      assert.equal(file.data.title, 'foo');
+      assert.equal(file.content, 'bar');
     });
 
     it('should support parsing the content property on an object.', function () {
@@ -29,7 +29,7 @@ describe('parsers', function () {
       });
       assert(file.data);
       assert(file.content);
-      assert(file.content === 'abc');
+      assert.equal(file.content, 'abc');
     });
 
     it('should support the contents property on an object', function () {
@@ -38,7 +38,7 @@ describe('parsers', function () {
       });
       assert(file.data);
       assert(file.content);
-      assert(file.content === 'abc');
+      assert.equal(file.content, 'abc');
     });
 
     it('should support contents as a buffer', function () {
@@ -47,7 +47,7 @@ describe('parsers', function () {
       });
       assert(file.data);
       assert(file.content);
-      assert(file.content === 'abc');
+      assert.equal(file.content, 'abc');
     });
 
     it('should add front matter data to a "data" object.', function () {
@@ -56,9 +56,9 @@ describe('parsers', function () {
       });
       assert(file.data);
       assert(file.data.title);
-      assert(file.data.title === 'abc');
+      assert.equal(file.data.title, 'abc');
       assert(file.content);
-      assert(file.content === 'foo');
+      assert.equal(file.content, 'foo');
     });
 
     it('should strip newlines after front matter before content', function () {
@@ -67,9 +67,9 @@ describe('parsers', function () {
       });
       assert(file.data);
       assert(file.data.title);
-      assert(file.data.title === 'abc');
+      assert.equal(file.data.title, 'abc');
       assert(file.content);
-      assert(file.content === 'foo');
+      assert.equal(file.content, 'foo');
     });
   });
 
@@ -81,7 +81,7 @@ describe('parsers', function () {
       } catch(err) {
         assert(err);
         assert(err.message);
-        assert(err.message === 'expected a callback function');
+        assert.equal(err.message, 'expected a callback function');
         done();
       }
     });
@@ -92,9 +92,8 @@ describe('parsers', function () {
 
         assert(file.data);
         assert(file.data.title);
-        assert(file.data.title === 'foo');
-        assert(file.content === 'bar');
-        assert(Buffer.isBuffer(file.contents));
+        assert.equal(file.data.title, 'foo');
+        assert.equal(file.content, 'bar');
         done();
       });
     });
@@ -105,8 +104,7 @@ describe('parsers', function () {
 
         assert(file.data);
         assert(file.content);
-        assert(file.content === 'abc');
-        assert(Buffer.isBuffer(file.contents));
+        assert.equal(file.content, 'abc');
         done();
       });
     });
@@ -116,7 +114,9 @@ describe('parsers', function () {
         if (err) return done(err);
 
         assert(file.data);
-        assert(typeof file.content === 'string');
+        assert.equal(typeof file.content, 'string');
+        assert.equal(file.content, 'abc');
+        assert.equal(file.contents.toString(), 'abc');
         assert(Buffer.isBuffer(file.contents));;
         done();
       });

@@ -75,11 +75,11 @@ parser.parseSync = function matterParseSync(file, options) {
     str = file;
     file = { content: str };
 
-  } else if (typeof file === 'object') {
+  } else if (utils.isObject(file)) {
     str = file.content || (file.contents ? file.contents.toString() : '');
 
   } else {
-    throw new Error('expected file to be a string or object');
+    throw new TypeError('expected file to be a string or object');
   }
 
   file.options = file.options || {};
@@ -89,7 +89,7 @@ parser.parseSync = function matterParseSync(file, options) {
     var parsed = utils.matter(str, opts);
     file.orig = parsed.orig;
     file.data = utils.extend({}, file.data, parsed.data);
-    file.content = parsed.content.replace(/^\s+/, '');
+    file.content = utils.trim(parsed.content);
     file.contents = new Buffer(file.content);
     return file;
   } catch (err) {
