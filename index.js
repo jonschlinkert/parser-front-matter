@@ -90,7 +90,6 @@ parser.parseSync = function matterParseSync(file, options) {
     file.orig = parsed.orig;
     file.data = utils.extend({}, file.data, parsed.data);
     file.content = utils.trim(parsed.content);
-    file.contents = new Buffer(file.content);
     return file;
   } catch (err) {
     throw err;
