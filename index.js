@@ -43,7 +43,7 @@ parser.parse = function matterParse(file, options, next) {
 
   try {
     next(null, parser.parseSync.apply(parser, args));
-  } catch(err) {
+  } catch (err) {
     next(err);
   }
 };

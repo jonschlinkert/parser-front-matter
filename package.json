@@ -30,7 +30,7 @@
     "gray-matter": "^2.0.2",
     "isobject": "^2.1.0",
     "lazy-cache": "^2.0.1",
-    "trim-leading-lines": "^0.1.0"
+    "trim-leading-lines": "^0.1.1"
   },
   "devDependencies": {
     "gulp-format-md": "^0.1.9",
@@ -70,12 +70,12 @@
       "reflinks": true
     },
     "reflinks": [
-      "gray-matter",
-      "verb",
-      "verb-generate-readme",
       "assemble",
       "generate",
-      "update"
+      "gray-matter",
+      "update",
+      "verb",
+      "verb-generate-readme"
     ]
   }
 }
