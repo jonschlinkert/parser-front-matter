@@ -34,15 +34,17 @@ var parser = module.exports;
  */
 
 parser.parse = function matterParse(file, options, next) {
-  var args = [].slice.call(arguments);
-  next = args.pop();
+  if (typeof options === 'function') {
+    next = options;
+    options = {};
+  }
 
   if (typeof next !== 'function') {
     throw new TypeError('expected a callback function');
   }
 
   try {
-    next(null, parser.parseSync.apply(parser, args));
+    next(null, parser.parseSync(file, options));
   } catch (err) {
     next(err);
   }
