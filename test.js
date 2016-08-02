@@ -96,52 +96,76 @@ describe('parsers', function() {
     });
   });
 
-  describe('.parse()', function() {
-    it('should throw when a callback is not passed', function(done) {
+  describe('.stringify()', function() {
+    it('should throw when a callback is not passed', function(cb) {
       try {
-        parser.parse({});
-        done(new Error('expected an error'));
+        parser.stringify({});
+        cb(new Error('expected an error'));
       } catch(err) {
         assert(err);
         assert(err.message);
         assert.equal(err.message, 'expected a callback function');
-        done();
+        cb();
       }
     });
 
-    it('should support passing a string', function(done) {
+    it('should stringify the yfm object', function() {
+      var file = parser.parseSync({content: '---\nyfm:\n  title: abc\n---\nfoo'});
+      assert.equal(file.content, 'foo');
+      assert.deepEqual(file.data, {yfm: { title: 'abc' }});
+
+      var file = parser.stringifySync(file);
+      assert.equal(file.content, '---\ntitle: abc\n---\nfoo\n');
+      assert.deepEqual(file.data, {});
+    });
+  });
+
+  describe('.parse()', function() {
+    it('should throw when a callback is not passed', function(cb) {
+      try {
+        parser.parse({});
+        cb(new Error('expected an error'));
+      } catch(err) {
+        assert(err);
+        assert(err.message);
+        assert.equal(err.message, 'expected a callback function');
+        cb();
+      }
+    });
+
+    it('should support passing a string', function(cb) {
       parser.parse('---\ntitle: foo\n---\nbar', function(err, file) {
-        if (err) return done(err);
+        if (err) return cb(err);
 
         assert(file.data);
         assert(file.data.title);
         assert.equal(file.data.title, 'foo');
         assert.equal(file.content, 'bar');
-        done();
+        cb();
       });
     });
 
-    it('should use the content property on the given file', function(done) {
+    it('should use the content property on the given file', function(cb) {
       parser.parse({content: 'abc'}, function(err, file) {
-        if (err) return done(err);
+        if (err) return cb(err);
 
         assert(file.data);
 
         assert.equal(file.content, 'abc');
-        done();
+        cb();
       });
     });
 
-    it('should support the contents property', function(done) {
+    it('should support the contents property', function(cb) {
       parser.parse({contents: new Buffer('abc')}, function(err, file) {
-        if (err) return done(err);
+        if (err) return cb(err);
 
         assert(file.data);
         assert.equal(typeof file.content, 'string');
         assert.equal(file.content, 'abc');
         assert.equal(file.contents.toString(), 'abc');
         assert(Buffer.isBuffer(file.contents));;
-        done();
+        cb();
       });
     });
   });

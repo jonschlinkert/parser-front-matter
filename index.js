@@ -97,3 +97,39 @@ parser.parseSync = function matterParseSync(file, options) {
     throw err;
   }
 };
+
+parser.stringify = function stringify(file, options, next) {
+  if (typeof options === 'function') {
+    next = options;
+    options = {};
+  }
+
+  if (typeof next !== 'function') {
+    throw new TypeError('expected a callback function');
+  }
+
+  if (!file.data.hasOwnProperty('yfm')) {
+    next(null, file);
+    return;
+  }
+
+  try {
+    next(null, parser.stringifySync(file, options));
+  } catch (err) {
+    next(err);
+  }
+};
+
+parser.stringifySync = function stringifySync(file, options) {
+  if (!file.data.hasOwnProperty('yfm')) {
+    return file;
+  }
+
+  try {
+    file.content = utils.matter.stringify(file.content, file.data.yfm);
+    delete file.data.yfm;
+    return file;
+  } catch (err) {
+    throw err;
+  }
+};
