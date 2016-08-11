@@ -3,6 +3,7 @@
 require('mocha');
 var fs = require('fs');
 var path = require('path');
+var File = require('vinyl');
 var assert = require('assert');
 var parser = require('./');
 
@@ -167,6 +168,28 @@ describe('parsers', function() {
         assert(Buffer.isBuffer(file.contents));;
         cb();
       });
+    });
+  });
+
+  describe('.file', function() {
+    it('should decorate a `.parse` function onto the file object', function() {
+      var file = new File({path: 'abc', contents: new Buffer('foo')});
+      parser.file(file);
+      assert.equal(typeof file.parseMatter, 'function');
+    });
+
+    it('should parse front matter when `file.parse()` is called', function() {
+      var file = new File({
+        path: 'abc',
+        contents: new Buffer('---\ntitle: foo\n---\nbar')
+      });
+
+      parser.file(file);
+      assert(!file.data);
+
+      file.parseMatter();
+      assert.equal(file.data.title, 'foo');
+      assert.equal(file.content, 'bar');
     });
   });
 });

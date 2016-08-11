@@ -70,28 +70,35 @@ parser.parse = function matterParse(file, options, next) {
  */
 
 parser.parseSync = function matterParseSync(file, options) {
-  options = options || {};
-  var str = '';
-
   if (typeof file === 'string') {
-    str = file;
-    file = { content: str };
+    file = { contents: new Buffer(file) };
 
-  } else if (utils.isObject(file)) {
-    str = file.content || (file.contents ? file.contents.toString() : '');
-
-  } else {
+  } else if (!utils.isObject(file)) {
     throw new TypeError('expected file to be a string or object');
   }
 
-  file.options = file.options || {};
-  var opts = utils.extend({}, options, file.options);
+  if (file.content && !file.contents) {
+    file.contents = new Buffer(file.content);
+  }
+
+  if (!utils.isValidFile(file)) {
+    return file;
+  }
 
   try {
+    var opts = utils.extend({}, options, file.options);
+
+    // allow files to selectively disable parsing
+    if (opts.frontMatter === false) {
+      return file;
+    }
+
+    var str = file.contents.toString();
     var parsed = utils.matter(str, opts);
     file.orig = parsed.orig;
-    file.data = utils.extend({}, file.data, parsed.data);
+    file.data = utils.merge({}, file.data, parsed.data);
     file.content = utils.trim(parsed.content);
+    file.contents = new Buffer(file.content);
     return file;
   } catch (err) {
     throw err;
@@ -108,7 +115,7 @@ parser.stringify = function stringify(file, options, next) {
     throw new TypeError('expected a callback function');
   }
 
-  if (!file.data.hasOwnProperty('yfm')) {
+  if (!utils.isValidFile(file)) {
     next(null, file);
     return;
   }
@@ -121,7 +128,18 @@ parser.stringify = function stringify(file, options, next) {
 };
 
 parser.stringifySync = function stringifySync(file, options) {
-  if (!file.data.hasOwnProperty('yfm')) {
+  if (typeof file === 'string') {
+    file = { contents: new Buffer(file) };
+
+  } else if (!utils.isObject(file)) {
+    throw new TypeError('expected file to be a string or object');
+  }
+
+  if (file.content && !file.contents) {
+    file.contents = new Buffer(file.content);
+  }
+
+  if (!utils.isValidFile(file)) {
     return file;
   }
 
@@ -132,4 +150,19 @@ parser.stringifySync = function stringifySync(file, options) {
   } catch (err) {
     throw err;
   }
+};
+
+/**
+ * Decorate `.parseMatter` and `.stringifyMatter` functions onto the `file` object,
+ * so front-matter can be parsed on-demand.
+ */
+
+parser.file = function(file, options) {
+  file.parseMatter = function(opts) {
+    return parser.parseSync(this, utils.merge({}, options, opts));
+  };
+
+  file.stringifyMatter = function(opts) {
+    return parser.stringifySync(this, utils.merge({}, options, opts));
+  };
 };
