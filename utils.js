@@ -36,9 +36,9 @@ utils.isNull = function isNull(file) {
 function isDirectory(file) {
   if (typeof file.stat === 'undefined') {
     stat.statSync(file);
-    file.isDirectory = function() {
-      return file.stat.isDirectory();
-    }
+  }
+  file.isDirectory = function() {
+    return file.stat && file.stat.isDirectory();
   }
   return file.isDirectory();
 }
