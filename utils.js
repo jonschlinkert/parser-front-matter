@@ -17,7 +17,8 @@ require('trim-leading-lines', 'trim');
 require = fn;
 
 utils.isValidFile = function(file) {
-  return file && !utils.isNull(file) && !utils.isBinary(file);
+  file = file || {};
+  return !utils.isNull(file) && !utils.isBinary(file);
 };
 
 utils.hasYFM = function(file) {
@@ -31,17 +32,7 @@ utils.isNull = function isNull(file) {
     };
   }
   return file.isNull();
-}
-
-function isDirectory(file) {
-  if (typeof file.stat === 'undefined') {
-    stat.statSync(file);
-  }
-  file.isDirectory = function() {
-    return file.stat && file.stat.isDirectory();
-  }
-  return file.isDirectory();
-}
+};
 
 /**
  * Expose `utils` modules

@@ -1,8 +1,6 @@
 'use strict';
 
 require('mocha');
-var fs = require('fs');
-var path = require('path');
 var File = require('vinyl');
 var assert = require('assert');
 var parser = require('./');
@@ -102,7 +100,7 @@ describe('parsers', function() {
       try {
         parser.stringify({});
         cb(new Error('expected an error'));
-      } catch(err) {
+      } catch (err) {
         assert(err);
         assert(err.message);
         assert.equal(err.message, 'expected a callback function');
@@ -115,7 +113,7 @@ describe('parsers', function() {
       assert.equal(file.content, 'foo');
       assert.deepEqual(file.data, {yfm: { title: 'abc' }});
 
-      var file = parser.stringifySync(file);
+      file = parser.stringifySync(file);
       assert.equal(file.content, '---\ntitle: abc\n---\nfoo\n');
       assert.deepEqual(file.data, {});
     });
@@ -126,12 +124,19 @@ describe('parsers', function() {
       try {
         parser.parse({});
         cb(new Error('expected an error'));
-      } catch(err) {
+      } catch (err) {
         assert(err);
         assert(err.message);
         assert.equal(err.message, 'expected a callback function');
         cb();
       }
+    });
+
+    it('should handle parser errors', function(cb) {
+      parser.parse({content: '---\na : b : c :bar\n---\nfoo'}, function(err, file) {
+        assert(err);
+        cb();
+      });
     });
 
     it('should support passing a string', function(cb) {
@@ -151,7 +156,6 @@ describe('parsers', function() {
         if (err) return cb(err);
 
         assert(file.data);
-
         assert.equal(file.content, 'abc');
         cb();
       });
@@ -165,7 +169,7 @@ describe('parsers', function() {
         assert.equal(typeof file.content, 'string');
         assert.equal(file.content, 'abc');
         assert.equal(file.contents.toString(), 'abc');
-        assert(Buffer.isBuffer(file.contents));;
+        assert(Buffer.isBuffer(file.contents));
         cb();
       });
     });

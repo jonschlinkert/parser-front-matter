@@ -81,15 +81,20 @@ parser.parseSync = function matterParseSync(file, options) {
     file.contents = new Buffer(file.content);
   }
 
+  file.data = file.data || {};
   if (!utils.isValidFile(file)) {
+    file.content = file.contents.toString();
+    file.orig = file.content;
     return file;
   }
 
   try {
-    var opts = utils.extend({}, options, file.options);
+    var opts = utils.extend({strict: true}, options, file.options);
 
     // allow files to selectively disable parsing
     if (opts.frontMatter === false) {
+      file.content = file.contents.toString();
+      file.orig = file.content;
       return file;
     }
 
@@ -115,7 +120,7 @@ parser.stringify = function stringify(file, options, next) {
     throw new TypeError('expected a callback function');
   }
 
-  if (!utils.isValidFile(file)) {
+  if (!utils.isValidFile(file) || !utils.hasYFM(file)) {
     next(null, file);
     return;
   }
@@ -139,7 +144,7 @@ parser.stringifySync = function stringifySync(file, options) {
     file.contents = new Buffer(file.content);
   }
 
-  if (!utils.isValidFile(file)) {
+  if (!utils.isValidFile(file) || !utils.hasYFM(file)) {
     return file;
   }
 
