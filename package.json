@@ -7,6 +7,10 @@
   "maintainers": [
     "Brian Woodward (https://github.com/doowb)"
   ],
+  "contributors": [
+    "Brian Woodward (https://twitter.com/doowb)",
+    "Jon Schlinkert (http://twitter.com/jonschlinkert)"
+  ],
   "repository": "jonschlinkert/parser-front-matter",
   "bugs": {
     "url": "https://github.com/jonschlinkert/parser-front-matter/issues"
@@ -14,8 +18,6 @@
   "license": "MIT",
   "files": [
     "index.js",
-    "LICENSE",
-    "README.md",
     "utils.js"
   ],
   "main": "index.js",
